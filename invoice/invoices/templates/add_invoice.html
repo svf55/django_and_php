@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load bootstrap4 %}
+
+{% block extrahead %}
+{% endblock %}
+
+
+{% block content %}
+<p></p>
+{% if user.is_authenticated %}
+<form action="" method="post" class="form">
+    {% csrf_token %}
+    <div class="container p-y-1">
+       <div class="row m-b-1">
+        <div class="col-sm-6 offset-sm-3">
+          {% if messages %}
+              {% for message in messages %}
+                  {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+                      <div class="alert alert-success alert-dismissible">
+                          <button type="button" class="close" data-dismiss="alert">&times;</button>
+                          <strong>Success!</strong>  {{ message }}
+                      </div>
+                  {% else %}
+                      <div class="alert alert-danger alert-dismissible">
+                          <button type="button" class="close" data-dismiss="alert">&times;</button>
+                          <strong>ERROR!</strong>  {{ message }}
+                      </div>
+                  {% endif %}
+              {% endfor %}
+          {% endif %}
+
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            {% buttons %}
+                <button type="submit" class="btn btn-primary">Создать</button>
+            {% endbuttons %}
+        </div>
+        </div>
+      </div>
+    </div>
+</form>
+
+{% else %}
+    <h2>Вы не авторизованы!</h2>
+    <a type="button" href="#" class="replaced btn btn-success btn-sm"
+       title="Войти снова">Авторизация</a>
+{% endif %}
+
+{% endblock %}

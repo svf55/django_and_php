@@ -1,0 +1,8 @@
+./order/.idea
+./order/.virtualenv
+./order/__pycache__
+./order/*.pyc
+./invoice/.idea
+./invoice/.virtualenv
+./invoice/__pycache__
+./invoice/*.pyc

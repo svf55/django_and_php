@@ -1,0 +1,47 @@
+version: '2'
+services:
+  db_order:
+    image: postgres:10.1
+    volumes:
+      - postgres_data_order:/var/lib/postgresql/data/
+  order:
+    build:
+      dockerfile: Dockerfile
+      context: ./order/
+    ports:
+      - "8000:8000"
+    links:
+      - db_order
+    entrypoint: /order/docker-entrypoint.sh
+    volumes:
+      - ./order:/order
+
+  db_invoice:
+    image: postgres:10.1
+    volumes:
+      - postgres_data_invoice:/var/lib/postgresql/data/
+  invoice:
+    build:
+      dockerfile: Dockerfile
+      context: ./invoice/
+    ports:
+      - "8050:8000"
+    links:
+      - db_invoice
+    entrypoint: /invoice/docker-entrypoint.sh
+    volumes:
+      - ./invoice:/invoice
+  php_orders:
+    build:
+      dockerfile: Dockerfile
+      context: ./php_orders/
+    ports:
+      - 80:80
+    links:
+      - db_order
+    volumes:
+      - ./php_orders:/var/www/html
+volumes:
+  postgres_data_order:
+  postgres_data_invoice:
+
